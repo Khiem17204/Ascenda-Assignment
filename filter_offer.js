@@ -1,4 +1,4 @@
-const { input_1 } = require('./input');
+const input = require('./input.json')
 // Change accordings to valid duration, 432000000 is 5 days in milisecond
 const VALID_DURATIONS = 432000000
   
@@ -56,7 +56,7 @@ function filter_offer(offers, checkin_date){
   }
   
 get_input().then((date) => {
-    const offers = filter_offer(input_1,date)
+    const offers = filter_offer(input,date)
     const fs = require("fs")
     fs.writeFile("output.json", JSON.stringify(offers), (error) =>{
         if (error) {
