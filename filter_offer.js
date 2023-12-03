@@ -1,4 +1,5 @@
 const { input_1 } = require('./input');
+// Change accordings to valid duration, 432000000 is 5 days in milisecond
 const VALID_DURATIONS = 432000000
   
 function get_input() {
@@ -16,6 +17,7 @@ function get_input() {
   }
 
 function remove_far_merchant(busi){
+    // Get the closest merchant out of all merchant for each offer
     if (busi["merchants"] !== null && busi["merchants"].length > 1){
         busi["merchants"] = [busi["merchants"].reduce((acc, e) => e["distance"] < acc["distance"] ? e : acc, {"distance": Infinity})]
         return busi
@@ -24,10 +26,12 @@ function remove_far_merchant(busi){
 }
 
 function valid_date(checkin_date, offer_date){
+    // Check if the offerdate is still valid for this checkin date
     return checkin_date.getTime() + VALID_DURATIONS < offer_date.getTime()
 }
 
 function filter_offer(offers, checkin_date){
+    // Store the closest offer in each category in acc, then sort by distance to get result 
     const acc = {}
     const result = {}
     offers["offers"].forEach(e => {
@@ -39,6 +43,7 @@ function filter_offer(offers, checkin_date){
             }
         }
     })
+    // Get the closest offer in each category
     const accValues = Object.values(acc);
 
     // Sorting offers based on distance in ascending order
