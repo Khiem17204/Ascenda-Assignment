@@ -18,7 +18,7 @@ function get_input() {
 
 function remove_far_merchant(busi){
     // Get the closest merchant out of all merchant for each offer
-    if (busi["merchants"] !== null && busi["merchants"].length > 1){
+    if (busi["merchants"].length > 1){
         busi["merchants"] = [busi["merchants"].reduce((acc, e) => e["distance"] < acc["distance"] ? e : acc, {"distance": Infinity})]
         return busi
     }
@@ -56,6 +56,10 @@ function filter_offer(offers, checkin_date){
   }
   
 get_input().then((date) => {
+    if (isNaN(date)){
+      console.log("Invalid date, please input date in format YYYY-MM-DD")
+      return
+    }
     const offers = filter_offer(input,date)
     const fs = require("fs")
     fs.writeFile("output.json", JSON.stringify(offers), (error) =>{
@@ -65,6 +69,6 @@ get_input().then((date) => {
         
             throw error;
           }
-        console.log("offers filtered successfully")
+      console.log("Offers filtered successfully")
     } )  
 });
